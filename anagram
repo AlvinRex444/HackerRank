@@ -1,0 +1,45 @@
+public class Solution {
+
+    public static int anagram(String s) {
+        // If length is odd, cannot split into equal halves
+        if (s.length() % 2 != 0) {
+            return -1;
+        }
+
+        int mid = s.length() / 2;
+        String s1 = s.substring(0, mid);
+        String s2 = s.substring(mid);
+
+        int[] freq = new int[26];
+
+        // Count frequency of first half
+        for (char c : s1.toCharArray()) {
+            freq[c - 'a']++;
+        }
+
+        // Subtract frequency of second half
+        for (char c : s2.toCharArray()) {
+            freq[c - 'a']--;
+        }
+
+        // Count how many characters need to change
+        int changes = 0;
+        for (int count : freq) {
+            if (count > 0) {
+                changes += count;
+            }
+        }
+
+        return changes;
+    }
+
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            String s = sc.next();
+            System.out.println(anagram(s));
+        }
+        sc.close();
+    }
+}
