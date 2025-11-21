@@ -1,0 +1,53 @@
+import java.util.*;
+
+public class Solution {
+
+    static String happyLadybugs(String b) {
+
+        Map<Character, Integer> freq = new HashMap<>();
+        boolean hasEmpty = false;
+
+        // Count frequency of each character
+        for (char c : b.toCharArray()) {
+            if (c == '_') {
+                hasEmpty = true;
+            } else {
+                freq.put(c, freq.getOrDefault(c, 0) + 1);
+            }
+        }
+
+        // Rule 1: If no empty cell, check if already happy
+        if (!hasEmpty) {
+            for (int i = 0; i < b.length(); i++) {
+                char c = b.charAt(i);
+                boolean leftSame = (i > 0 && b.charAt(i - 1) == c);
+                boolean rightSame = (i < b.length() - 1 && b.charAt(i + 1) == c);
+                if (!leftSame && !rightSame) {
+                    return "NO";
+                }
+            }
+            return "YES";
+        }
+
+        // Rule 2: With empty spaces, ensure no color has a single bug
+        for (int count : freq.values()) {
+            if (count == 1) {
+                return "NO";
+            }
+        }
+
+        return "YES";
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int g = sc.nextInt();
+
+        while (g-- > 0) {
+            int n = sc.nextInt();
+            String b = sc.next();
+            System.out.println(happyLadybugs(b));
+        }
+        sc.close();
+    }
+}
